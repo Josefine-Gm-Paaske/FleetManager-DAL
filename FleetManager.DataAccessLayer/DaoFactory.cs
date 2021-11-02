@@ -1,5 +1,8 @@
 ﻿using FleetManager.DataAccessLayer.Daos;
+using FleetManager.DataAccessLayer.Daos.Rest;
 using FleetManager.Entities;
+using RestSharp;
+using System;
 
 namespace FleetManager.DataAccessLayer
 {
@@ -7,12 +10,19 @@ namespace FleetManager.DataAccessLayer
     {
         public static IDao<TModel> Create<TModel>(IDataContext dataContext)
         {
-            return typeof(TModel) switch
+            Type dataContextType = dataContext.GetType();
+                        
+            if (typeof(IDataContext<IRestClient>).IsAssignableFrom(dataContextType))
             {
-                var dao when dao == typeof(Car) => new CarDao(dataContext) as IDao<TModel>,
-                var dao when dao == typeof(Location) => new LocationDao(dataContext) as IDao<TModel>,
-                _ => null,
-            };
+                return typeof(TModel) switch
+                {
+                    var dao when dao == typeof(Car) => new Daos.Rest.CarDao(dataContext as IDataContext<IRestClient>) as IDao<TModel>,
+                    var dao when dao == typeof(Location) => new Daos.Rest.LocationDao(dataContext as IDataContext<IRestClient>) as IDao<TModel>,
+                    _ => throw new DaoFactoryException($"Model [{typeof(TModel).Name}] not supported"),
+                };
+            }
+            throw new DaoFactoryException($"DataContext [{dataContext}] not supported");
         }
     }
 }
+    
