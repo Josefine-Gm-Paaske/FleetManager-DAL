@@ -17,6 +17,7 @@
   <ItemGroup>
     <PackageReference Include="dbup-core" Version="4.5.0" />
     <PackageReference Include="dbup-sqlserver" Version="4.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.11" />
   </ItemGroup>
 
 </Project>

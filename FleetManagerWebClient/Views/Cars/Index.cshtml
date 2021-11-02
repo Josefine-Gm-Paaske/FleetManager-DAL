@@ -1,0 +1,39 @@
+﻿@model IEnumerable<FleetManagerWebClient.Models.Car>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<h4>Car</h4>
+<hr />
+<div class="row">
+    @foreach (Car car in Model)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @car
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    }
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
