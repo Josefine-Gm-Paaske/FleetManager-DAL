@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FleetManager.DataAccessLayer
 {
     public interface IDao<TModel>
     {
-        int Create(TModel model);
+        TModel Create(TModel model);
 
         IEnumerable<TModel> ReadAll();
 
-        TModel ReadById(int id);
+        IEnumerable<TModel> ReadbyId(Func<TModel, bool> predicate);
 
-        int Update(TModel model);
+        bool Update(TModel model);
 
-        int Delete(TModel model);
+        bool Delete(TModel model);
     }
 }
